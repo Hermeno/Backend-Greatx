@@ -26,6 +26,7 @@ module.exports = async (req, res) => {
     });
     res.status(201).json(created);
   } catch (error) {
-    throw e;
+    // rethrow the original error so asyncHandler / error middleware can handle it
+    throw error;
   }
 };
