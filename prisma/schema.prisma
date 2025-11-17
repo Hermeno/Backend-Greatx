@@ -1,0 +1,169 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.1.x"]
+}
+
+
+model clientes {
+  id           Int                @id @default(autoincrement())
+  nome         String
+  email        String             @unique
+  telefone     String?
+  senha        String
+  endereco     String?
+  tipo_cliente String?
+  nivel_acesso String?            @default("admin_master")
+  usuarios_internos usuarios_internos[]
+  estabelecimentos estabelecimentos[]
+  historico_relatorios historico_relatorios[]
+  monitoramento_sistema monitoramento_sistema[]
+}
+
+model usuarios_internos {
+  id         Int      @id @default(autoincrement())
+  cliente_id Int?
+  nome       String
+  email      String   @unique
+  telefone   String?
+  senha      String
+  funcao     String?
+  cliente    clientes? @relation(fields: [cliente_id], references: [id])
+  log_admin  log_admin[]
+}
+
+model estabelecimentos {
+  id           Int      @id @default(autoincrement())
+  cliente_id   Int?
+  nome         String
+  endereco     String?
+  tipo         String?
+  foto         String?
+  cliente      clientes? @relation(fields: [cliente_id], references: [id])
+  mesas        mesas[]
+  produtos     produtos[]
+}
+
+model mesas {
+  id                Int      @id @default(autoincrement())
+  estabelecimento_id Int?
+  numero            Int?
+  foto              String?
+  status            String   @default("disponivel")
+  estabelecimento   estabelecimentos? @relation(fields: [estabelecimento_id], references: [id])
+  pedidos           pedidos[]
+  acessos_qrcode    acessos_qrcode[]
+}
+
+model usuarios_finais {
+  id                Int      @id @default(autoincrement())
+  nome              String
+  email             String?  @unique
+  telefone          String?
+  senha             String?
+  foto              String?
+  data_cadastro     DateTime @default(now())
+  tipo_acesso       String?  @default("app")
+  pedidos           pedidos[]
+  historico_beneficios historico_beneficios[]
+  acessos_qrcode    acessos_qrcode[]
+}
+
+model categorias {
+  id      Int       @id @default(autoincrement())
+  nome    String
+  produtos produtos[]
+}
+
+model produtos {
+  id                Int      @id @default(autoincrement())
+  estabelecimento_id Int?
+  nome              String
+  descricao         String?
+  preco             Decimal
+  foto              String?
+  categoria_id      Int?
+  estabelecimento   estabelecimentos? @relation(fields: [estabelecimento_id], references: [id])
+  categoria         categorias? @relation(fields: [categoria_id], references: [id])
+  itens_pedido      itens_pedido[]
+}
+
+model pedidos {
+  id              Int      @id @default(autoincrement())
+  usuario_final_id Int?
+  mesa_id         Int?
+  status          String   @default("aberto")
+  total           Decimal?
+  data_hora       DateTime @default(now())
+  usuario_final   usuarios_finais? @relation(fields: [usuario_final_id], references: [id])
+  mesa            mesas?   @relation(fields: [mesa_id], references: [id])
+  itens_pedido    itens_pedido[]
+  pagamentos      pagamentos[]
+}
+
+model itens_pedido {
+  id            Int      @id @default(autoincrement())
+  pedido_id     Int?
+  produto_id    Int?
+  quantidade    Int
+  preco_unitario Decimal
+  pedido        pedidos? @relation(fields: [pedido_id], references: [id])
+  produto       produtos? @relation(fields: [produto_id], references: [id])
+}
+
+model historico_beneficios {
+  id              Int      @id @default(autoincrement())
+  usuario_final_id Int?
+  beneficio       String?
+  data_uso        DateTime @default(now())
+  usuario_final   usuarios_finais? @relation(fields: [usuario_final_id], references: [id])
+}
+
+model pagamentos {
+  id            Int      @id @default(autoincrement())
+  pedido_id     Int?
+  metodo_pagamento String?
+  valor         Decimal?
+  data_pagamento DateTime @default(now())
+  pedido        pedidos? @relation(fields: [pedido_id], references: [id])
+}
+
+model acessos_qrcode {
+  id              Int      @id @default(autoincrement())
+  mesa_id         Int?
+  usuario_final_id Int?
+  data_acesso     DateTime @default(now())
+  tipo_acesso     String?  @default("web_qr")
+  mesa            mesas?   @relation(fields: [mesa_id], references: [id])
+  usuario_final   usuarios_finais? @relation(fields: [usuario_final_id], references: [id])
+}
+
+model log_admin {
+  id                Int      @id @default(autoincrement())
+  usuario_interno_id Int?
+  acao              String?
+  data_hora         DateTime @default(now())
+  usuario_interno   usuarios_internos? @relation(fields: [usuario_interno_id], references: [id])
+}
+
+model historico_relatorios {
+  id            Int      @id @default(autoincrement())
+  cliente_id    Int?
+  tipo_relatorio String?
+  parametros    String?
+  data_execucao DateTime @default(now())
+  cliente       clientes? @relation(fields: [cliente_id], references: [id])
+}
+
+model monitoramento_sistema {
+  id            Int      @id @default(autoincrement())
+  cliente_id    Int?
+  tipo_evento   String?
+  detalhe       String?
+  data_evento   DateTime @default(now())
+  cliente       clientes? @relation(fields: [cliente_id], references: [id])
+}
