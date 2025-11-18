@@ -18,17 +18,16 @@ class AppServer {
   }
 
   routes() {
-    // ✅ aqui dentro
     this.app.use('/usuarios-internos', usuariosInternosRoutes);
 
     this.app.use('/clientes', require('./routes/clientes/clientes'));
-    // this.app.use('/categorias', require('./routes/categorias/'));
+    this.app.use('/categorias', require('./routes/categorias/categorias'));
     this.app.use('/pedidos', require('./routes/pedidos/pedidos'));
     this.app.use('/produtos', require('./routes/products/produtos'));
     this.app.use('/estabelecimentos', require('./routes/estabelecimentos/estabelecimentos'));
     this.app.use('/historicoBenefios', require('./routes/historicoBeneficios/historicoBeneficios'));
-    this.app.use('/historicoPedidos', require('./routes/historicosRelatorio/historicoRelatorios'));
-  this.app.use('/itensPedido', require('./routes/itensPedido/itensPedido'));
+    this.app.use('/historicosRelatorio', require('./routes/historicosRelatorio/historicoRelatorios'));
+    this.app.use('/itensPedido', require('./routes/itensPedido/itensPedido'));
     this.app.use('/mesas', require('./routes/mesas/mesas'));
     this.app.use('/monitoramento', require('./routes/monitoramento/monitoramentoSistema'));
     this.app.use('/payment', require('./routes/payment/pagamentos'));
@@ -36,7 +35,6 @@ class AppServer {
     this.app.use('/auth', auth); 
   }
   middlewares() {
-    // Middleware de erro global
     this.app.use(errorHandler);
   }
 
