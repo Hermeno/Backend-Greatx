@@ -1,6 +1,3 @@
-// Compatibility shim: export the router from the actual directory `ItensPedido` (case-sensitive)
-// This ensures deployments on case-sensitive filesystems still resolve the module path
-module.exports = require('../itensPedido/itensPedido');
 const express = require('express');
 const router = express.Router();
 const asyncHandler = require('../../asyncHandler');

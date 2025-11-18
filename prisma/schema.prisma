@@ -89,7 +89,7 @@ model produtos {
   categoria_id      Int?
   estabelecimento   estabelecimentos? @relation(fields: [estabelecimento_id], references: [id])
   categoria         categorias? @relation(fields: [categoria_id], references: [id])
-  itens_pedido      itens_pedido[]
+  itensPedido      itensPedido[]
 }
 
 model pedidos {
@@ -101,11 +101,11 @@ model pedidos {
   data_hora       DateTime @default(now())
   usuario_final   usuarios_finais? @relation(fields: [usuario_final_id], references: [id])
   mesa            mesas?   @relation(fields: [mesa_id], references: [id])
-  itens_pedido    itens_pedido[]
+  itensPedido    itensPedido[]
   pagamentos      pagamentos[]
 }
 
-model itens_pedido {
+model itensPedido {
   id            Int      @id @default(autoincrement())
   pedido_id     Int?
   produto_id    Int?
