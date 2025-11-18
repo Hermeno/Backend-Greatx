@@ -23,6 +23,7 @@ async function loginClientes(req, res) {
         if (!isMatch) {
             return res.status(401).json({ error: 'E-mail ou senha inválidos' });
         }
+        console.log("Usuário autenticado:", token);
         const token = jwt.sign({ id: user.id, user: user.nome, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
         res.status(200).json({ token });
     } catch (error) {
