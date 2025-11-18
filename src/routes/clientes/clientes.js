@@ -10,11 +10,11 @@ const deleteCliente = require('./del');
 const login = require('./login');
 
 // Mapear endpoints
-router.post('/', asyncHandler(addCliente));
+router.post('/', (addCliente));
 router.get('/', asyncHandler(getClientes));
 router.get('/:id', asyncHandler(getClienteById));
 router.put('/:id', asyncHandler(updateCliente));
 router.delete('/:id', asyncHandler(deleteCliente));
-router.post('/login', asyncHandler(login));
+router.post('/login', (login));
 
 module.exports = router;
