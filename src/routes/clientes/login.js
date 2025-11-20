@@ -1,34 +1,48 @@
-const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET || 'default_secret';
 
-
-const router = express.Router();
-
 async function loginClientes(req, res) {
     try {
-        const userInfo = req.body;
+        const { email, senha } = req.body;
+
         const user = await prisma.clientes.findUnique({
-            where: {
-                email: userInfo.email,
-            },
+            where: { email },
         });
+
         if (!user) {
             return res.status(401).json({ error: 'E-mail ou senha inválidos' });
         }
-        const isMatch = await bcrypt.compare(userInfo.senha, user.senha);
+
+        const isMatch = await bcrypt.compare(senha, user.senha);
         if (!isMatch) {
             return res.status(401).json({ error: 'E-mail ou senha inválidos' });
         }
-        console.log("Usuário autenticado:", token);
-        const token = jwt.sign({ id: user.id, user: user.nome, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
-        res.status(200).json({ token });
+
+        // Gerar token corretamente
+        const token = jwt.sign(
+            { id: user.id, nome: user.nome, email: user.email },
+            JWT_SECRET,
+            { expiresIn: '7d' }
+        );
+
+        console.log("Usuário autenticado:", user.email);
+
+        return res.status(200).json({
+            token,
+            usuario: {
+                id: user.id,
+                nome: user.nome,
+                email: user.email,
+            },
+        });
+
     } catch (error) {
-        res.status(401).json({ error: 'E-mail ou senha inválidos' });
+        console.error("Erro no login:", error);
+        return res.status(500).json({ error: 'Erro interno no servidor' });
     }
-} 
+}
 
 module.exports = loginClientes;
