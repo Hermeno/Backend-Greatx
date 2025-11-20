@@ -12,6 +12,6 @@ module.exports = async (req, res) => {
     await prisma.historico_beneficios.delete({ where: { id } });
     res.status(204).end();
   } catch (error) {
-    throw e;
+    throw error;
   }
 };

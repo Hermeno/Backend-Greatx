@@ -24,6 +24,6 @@ module.exports = async (req, res) => {
 
     res.json(updated);
   } catch (error) {
-    throw e;
+    throw error;
   }
 };

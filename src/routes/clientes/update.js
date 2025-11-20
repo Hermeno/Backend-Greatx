@@ -13,8 +13,8 @@ async function updateCliente(req, res) {
     });
 
     res.json(cliente);
-  } catch (e) {
-    throw e;
+  } catch (error) {
+    throw error;
   }
 }
 

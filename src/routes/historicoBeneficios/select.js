@@ -14,7 +14,7 @@ exports.getAll = async (req, res) => {
 
     res.status(200).json(items);
   } catch (error) {
-    throw e;
+    throw error;
   }
 };
 
@@ -34,6 +34,6 @@ exports.getById = async (req, res) => {
 
     res.json(item);
   } catch (error) {
-    throw e;
+    throw error;
   }
 };

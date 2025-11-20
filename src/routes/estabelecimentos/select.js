@@ -13,7 +13,7 @@ exports.getAll = async (req, res) => {
     });
     res.status(200).json(estabelecimentos);
   } catch (error) {
-    throw e;
+    throw error;
   }
 };
 
@@ -33,6 +33,6 @@ exports.getById = async (req, res) => {
 
     res.json(estabelecimento);
   } catch (error) {
-    throw e;
+    throw error;
   }
 };

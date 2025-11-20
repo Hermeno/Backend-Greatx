@@ -10,7 +10,7 @@ async function deleteCliente(req, res) {
 
     res.status(204).end();
   } catch (e) {
-    throw e;
+    throw error;
   }
 }
 

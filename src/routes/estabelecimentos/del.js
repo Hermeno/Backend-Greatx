@@ -14,6 +14,6 @@ module.exports = async (req, res) => {
     await prisma.estabelecimentos.delete({ where: { id } });
     res.status(204).end();
   } catch (error) {
-    throw e;
+    throw error;
   }
 };

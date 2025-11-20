@@ -27,7 +27,7 @@ class AppServer {
     this.app.use('/estabelecimentos', require('./routes/estabelecimentos/estabelecimentos'));
     this.app.use('/historicoBenefios', require('./routes/historicoBeneficios/historicoBeneficios'));
     this.app.use('/historicosRelatorio', require('./routes/historicosRelatorio/historicoRelatorios'));
-    // this.app.use('/itensPedido', require('./routes/itensPedido/itensPedido'));
+    this.app.use('/itensPedido', require('./routes/itensPedido/itensPedido'));
     this.app.use('/mesas', require('./routes/mesas/mesas'));
     this.app.use('/monitoramento', require('./routes/monitoramento/monitoramentoSistema'));
     this.app.use('/payment', require('./routes/payment/pagamentos'));

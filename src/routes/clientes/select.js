@@ -35,8 +35,8 @@ async function getClienteById(req, res) {
     } else {
       res.status(404).json({ error: 'Cliente não encontrado' });
     }
-  } catch (e) {
-    throw e;
+  } catch (error) {
+    throw error;
   }
 }
 
