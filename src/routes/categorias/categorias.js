@@ -5,6 +5,7 @@ const router = express.Router();
 const asyncHandler = require('../../asyncHandler');
 const addCategoria = require('./add');
 const { getAll, getById } = require('./select');
+
 const updateCategoria = require('./update');
 const deleteCategoria = require('./del');
 
