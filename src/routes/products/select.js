@@ -35,4 +35,22 @@ const getProdutoById = async (req, res) => {
   }
 };
 
-module.exports = { getAllProdutos, getProdutoById };
+// select.js
+const getProdutosByCategoriaId = async (req, res) => {
+  const categoriaId = parseInt(req.params.categoria_id); // pega do parâmetro
+  if (!categoriaId) return res.status(400).json({ error: 'ID inválido' });
+
+  try {
+    const produtos = await prisma.produtos.findMany({
+      where: { categoria_id: categoriaId },
+      include: { categoria: true, estabelecimento: true },
+    });
+    res.json(produtos);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
+
+module.exports = { getAllProdutos, getProdutoById, getProdutosByCategoriaId };
