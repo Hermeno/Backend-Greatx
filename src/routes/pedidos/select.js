@@ -10,7 +10,6 @@ const getAllPedidos = async (req, res) => {
   try {
     const items = await prisma.pedidos.findMany({
       include: {
-        usuario_final: true,
         mesa: true,
         itens_pedido: { include: { produto: true } },
         pagamentos: true
