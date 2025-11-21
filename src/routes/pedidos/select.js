@@ -11,7 +11,7 @@ const getAllPedidos = async (req, res) => {
     const items = await prisma.pedidos.findMany({
       include: {
         mesa: true,
-        itens_pedido: { include: { produto: true } },
+        itensPedido: { include: { produto: true } },
         pagamentos: true
       }
     });
@@ -31,7 +31,7 @@ const getPedidoById = async (req, res) => {
       include: {
         usuario_final: true,
         mesa: true,
-        itens_pedido: { include: { produto: true } },
+        itensPedido: { include: { produto: true } },
         pagamentos: true
       }
     });
