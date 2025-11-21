@@ -19,18 +19,19 @@ class AppServer {
 
   routes() {
     this.app.use('/usuarios-internos', usuariosInternosRoutes);
+    const authMiddleware = require('./auth');
 
     this.app.use('/clientes', require('./routes/clientes/clientes'));
-    this.app.use('/categorias', require('./routes/categorias/categorias'));
-    this.app.use('/pedidos', require('./routes/pedidos/pedidos'));
-    this.app.use('/produtos', require('./routes/products/produtos'));
-    this.app.use('/estabelecimentos', require('./routes/estabelecimentos/estabelecimentos'));
-    this.app.use('/historicoBenefios', require('./routes/historicoBeneficios/historicoBeneficios'));
-    this.app.use('/historicosRelatorio', require('./routes/historicosRelatorio/historicoRelatorios'));
-    this.app.use('/itensPedido', require('./routes/itens/itens'));
-    this.app.use('/mesas', require('./routes/mesas/mesas'));
-    this.app.use('/monitoramento', require('./routes/monitoramento/monitoramentoSistema'));
-    this.app.use('/payment', require('./routes/payment/pagamentos'));
+    this.app.use('/categorias', authMiddleware, require('./routes/categorias/categorias'));
+    this.app.use('/pedidos',authMiddleware, require('./routes/pedidos/pedidos'));
+    this.app.use('/produtos',authMiddleware, require('./routes/products/produtos'));
+    this.app.use('/estabelecimentos',authMiddleware, require('./routes/estabelecimentos/estabelecimentos'));
+    this.app.use('/historicoBenefios',authMiddleware, require('./routes/historicoBeneficios/historicoBeneficios'));
+    this.app.use('/historicosRelatorio',authMiddleware, require('./routes/historicosRelatorio/historicoRelatorios'));
+    this.app.use('/itensPedido',authMiddleware, require('./routes/itens/itens'));
+    this.app.use('/mesas',authMiddleware, require('./routes/mesas/mesas'));
+    this.app.use('/monitoramento',authMiddleware, require('./routes/monitoramento/monitoramentoSistema'));
+    this.app.use('/payment',authMiddleware, require('./routes/payment/pagamentos'));
 
     this.app.use('/auth', auth); 
   }
