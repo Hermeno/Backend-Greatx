@@ -18,6 +18,8 @@ class AppServer {
   }
 
   routes() {
+    // Public orders endpoint for mobile app to submit orders
+    this.app.use('/orders', require('./routes/orders/orders'));
     this.app.use('/usuarios-internos', usuariosInternosRoutes);
     const authMiddleware = require('./auth');
 
